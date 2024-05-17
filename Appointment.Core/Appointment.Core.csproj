@@ -13,11 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Dto\" />
-      <Folder Include="Services\" />
-    </ItemGroup>
-
-    <ItemGroup>
+      <ProjectReference Include="..\Appointment.Data\Appointment.Data.csproj" />
       <ProjectReference Include="..\Appointment.Utils\Appointment.Utils.csproj" />
     </ItemGroup>
 

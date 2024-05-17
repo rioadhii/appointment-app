@@ -34,7 +34,6 @@ namespace Appointment.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AuthenticationSource")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
@@ -56,7 +55,6 @@ namespace Appointment.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("EmailVerificationCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -82,19 +80,16 @@ namespace Appointment.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordResetCode")
-                        .IsRequired()
                         .HasMaxLength(328)
                         .HasColumnType("nvarchar(328)");
 
                     b.Property<string>("RefreshToken")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("ShouldChangePasswordOnNextLogin")
                         .HasColumnType("bit");
 
                     b.Property<string>("Token")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("UserId")
