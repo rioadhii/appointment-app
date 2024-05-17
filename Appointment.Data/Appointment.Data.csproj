@@ -19,4 +19,8 @@
       <ProjectReference Include="..\Appointment.Utils\Appointment.Utils.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
 </Project>

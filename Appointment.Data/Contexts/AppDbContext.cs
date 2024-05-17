@@ -16,13 +16,16 @@ public class AppDbContext : BaseDbContext
     ) : base(options, userInfo)
     {
     }
-    
+
     public DbSet<Users> Users { get; set; }
     public DbSet<UserCredentials> UserCredentials { get; set; }
     public DbSet<UserLogins> UserLogins { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Users>().HasMany<UserLogins>(b => b.UserLogins)
+            .WithOne(p => p.User).IsRequired(false);
+
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
             //other automated configurations left out

@@ -7,11 +7,9 @@ namespace Appointment.Data;
 
 public class ContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
-
     public AppDbContext CreateDbContext(string[] args)
     {
         var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -19,7 +17,6 @@ public class ContextFactory : IDesignTimeDbContextFactory<AppDbContext>
             .Build();
 
         var dbContextBuilder = new DbContextOptionsBuilder<AppDbContext>();
-        
 
         var connectionString = configuration.GetConnectionString("AppDbContext");
 
