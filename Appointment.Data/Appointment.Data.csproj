@@ -15,4 +15,8 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Appointment.Utils\Appointment.Utils.csproj" />
+    </ItemGroup>
+
 </Project>

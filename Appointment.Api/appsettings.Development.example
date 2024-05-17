@@ -1,0 +1,8 @@
+{
+  "ConnectionStrings": {
+    "AppDbContext": "Data Source=.;Initial Catalog=AppointmentDB;Integrated Security=true;"
+  },
+  "ApplicationUrl": {
+    "serverRootUrl": "http://localhost:8080"
+  }
+}

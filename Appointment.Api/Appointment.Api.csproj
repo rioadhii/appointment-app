@@ -17,4 +17,14 @@
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Appointment.Core\Appointment.Core.csproj" />
+      <ProjectReference Include="..\Appointment.Data\Appointment.Data.csproj" />
+      <ProjectReference Include="..\Appointment.Utils\Appointment.Utils.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\" />
+    </ItemGroup>
+
 </Project>
