@@ -1,0 +1,89 @@
+# Visual Studio / Rider / VSCode
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.bak
+bin/
+obj/
+node_modules/
+npm-debug.log
+.DS_Store
+*.user
+*.vscode/
+.vs/
+
+# Build results
+[Oo]ut/
+[Oo]bj/
+*.dll
+*.exe
+*.pdb
+*.dll.config
+*.cache
+*.log
+*.zip
+
+# NuGet
+packages/
+*.nupkg
+*.pdb
+*.dll
+
+# Package files
+*.zip
+*.nupkg
+
+# Entity Framework
+*.edmx
+*.Designer.cs
+*.edmx.diagram
+*.t4
+
+# Rider
+.idea/
+*.sln.iml
+
+# Angular CLI generated files
+node_modules/
+dist/
+tmp/
+.out-tsc/
+*.tmp/
+*.o/
+*.c/
+*.log
+*.pid
+*.ng-pid/
+*.ng-factory/
+
+# webpack
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# TypeScript
+*.tsbuildinfo
+
+# Visual Studio Code
+.vscode/
+.history/
+
+# Angular IDE generated files
+.idea/
