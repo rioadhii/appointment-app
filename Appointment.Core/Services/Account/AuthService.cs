@@ -1,7 +1,6 @@
 using System.Security.Authentication;
 using Appointment.Core.Dto;
 using Appointment.Core.Dto.Auth;
-using Appointment.Core.Dto.Base;
 using Appointment.Core.Dto.Token;
 using Appointment.Core.Services.Token;
 using Appointment.Data.Contexts;
@@ -10,7 +9,6 @@ using Appointment.Data.Repositories.Account;
 using Appointment.Data.Repositories.User;
 using Appointment.Utils.Auth.UserInfo;
 using Appointment.Utils.Hash;
-using Microsoft.AspNetCore.Http;
 
 namespace Appointment.Core.Services.Account;
 
