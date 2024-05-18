@@ -1,3 +1,5 @@
+using Appointment.Utils.Constant;
+
 namespace Appointment.Core.Dto.Base;
 
 public class ResponseDto
@@ -5,8 +7,11 @@ public class ResponseDto
     public string Message { get; set; }
     public bool Success { get; set; }
 
+    public int StatusCode { get; set; }
+
     public ResponseDto() {
-        this.Message = "";
-        this.Success = true;
+        Message = AppConsts.ApiSuccessMessage;
+        Success = true;
+        StatusCode = 200;
     }
 }

@@ -1,6 +1,7 @@
 using System.Security.Authentication;
 using Appointment.Core.Dto;
 using Appointment.Core.Dto.Auth;
+using Appointment.Core.Dto.Base;
 using Appointment.Core.Dto.Token;
 using Appointment.Core.Services.Token;
 using Appointment.Data.Contexts;
@@ -8,6 +9,7 @@ using Appointment.Data.Models;
 using Appointment.Data.Repositories.Account;
 using Appointment.Data.Repositories.User;
 using Appointment.Utils.Auth.UserInfo;
+using Appointment.Utils.Extensions;
 using Appointment.Utils.Hash;
 
 namespace Appointment.Core.Services.Account;
@@ -42,9 +44,11 @@ public class AuthService : IAuthService
         _userRepository = userRepository;
     }
 
-    public async Task<LoginResultDto> Authenticate(LoginInputDto input)
+    public async Task<ResponseResultDto<LoginResultDto>> Authenticate(LoginInputDto input)
     {
-        var TaskAuthenticate = await Task.Factory.StartNew(async () =>
+        var response = new ResponseResultDto<LoginResultDto>();
+        
+        try
         {
             var usersData = await _userRepository.FindUserCredentialsAsync(UsernameOrEmail: input.UsernameOrEmail);
 
@@ -77,16 +81,24 @@ public class AuthService : IAuthService
             var refreshToken = await _tokenService.GenerateRefreshTokenAsync();
             await UpdateRefreshTokenAsync(usersData, accessToken, refreshToken);
 
-            return new LoginResultDto
+            // Set response data
+            response.Success = true;
+            response.Data = new LoginResultDto
             {
                 AccessToken = accessToken,
                 User = user,
                 IsShouldChangePassword = user.ShouldChangePasswordOnNextLogin,
                 RefreshToken = refreshToken,
             };
-        });
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.Message = ex.Message;
+            response.StatusCode = ex.GetStatusCode();
+        }
 
-        return await TaskAuthenticate;
+        return response;
     }
 
     private async Task<bool> UpdateRefreshTokenAsync(UserCredentials userCredentials, string accessToken,

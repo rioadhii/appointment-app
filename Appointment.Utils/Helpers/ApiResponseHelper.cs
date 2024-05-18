@@ -1,43 +1,32 @@
+using System.Net;
+using Appointment.Utils.Constant;
 using Appointment.Utils.Dto;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Appointment.Utils.Helpers;
 
 public static class ApiResponseHelper
 {
-    public static IActionResult Ok<T>(
-        ControllerBase controller, T data, string message = "Successfully")
+    public static IActionResult FormatResponse<T>(
+        ControllerBase controller, 
+        T data,
+        int statusCode = 200,
+        string message = AppConsts.ApiSuccessMessage)
     {
         var context = controller.HttpContext;
         var apiResponse = new ApiResponse<T>
         {
-            Code = context.Response.StatusCode,
+            Code = statusCode,
             Path = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}",
             Timestamp = DateTime.UtcNow,
-            Message = message,
+            Message = statusCode == (int)HttpStatusCode.InternalServerError ? "Internal Server Error" : message,
             Data = data,
             Errors = null
         };
 
-        return new OkObjectResult(apiResponse);
-    }
-
-    // Overload for cases where no data needs to be passed
-    public static IActionResult Ok(
-        ControllerBase controller, string message = "Successfully")
-    {
-        var context = controller.HttpContext;
-        var apiResponse = new ApiResponse<object>
+        return new OkObjectResult(apiResponse)
         {
-            Code = context.Response.StatusCode,
-            Path = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}",
-            Timestamp = DateTime.UtcNow,
-            Message = message,
-            Data = null,
-            Errors = null
+            StatusCode = statusCode
         };
-
-        return new OkObjectResult(apiResponse);
     }
 }

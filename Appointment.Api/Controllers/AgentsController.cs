@@ -27,6 +27,12 @@ public class AgentsController : ControllerBase
     public async Task<IActionResult> Index()
     {
         var result = await _agentService.GetAllAsync();
-        return ApiResponseHelper.Ok(this, result);
+        
+        return ApiResponseHelper.FormatResponse(
+            this,
+            result.Data,
+            result.StatusCode,
+            result.Message
+        );
     }
 }

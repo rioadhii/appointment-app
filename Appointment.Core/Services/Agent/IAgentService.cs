@@ -1,8 +1,9 @@
 using Appointment.Core.Dto.Agent;
+using Appointment.Core.Dto.Base;
 
 namespace Appointment.Core.Services.Agent;
 
 public interface IAgentService
 {
-    Task<List<AgentResultDto>> GetAllAsync();
+    Task<ResponseResultDto<List<AgentResultDto>>> GetAllAsync();
 }
