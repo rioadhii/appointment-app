@@ -1,7 +1,11 @@
+using Appointment.Api.SwaggerDocs.Auth;
 using Appointment.Core.Dto.Auth;
 using Appointment.Core.Dto.Base;
 using Appointment.Core.Services.Account;
+using Appointment.Utils.Dto;
+using Appointment.Utils.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Appointment.Api.Controllers;
 
@@ -17,8 +21,11 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ResponseResultDto<LoginResultDto>> Post([FromBody] LoginInputDto input)
+    [ProducesResponseType(typeof(ApiResponse<LoginResultDto>), 200)]
+    [SwaggerResponseExample(200, typeof(LoginResultDtoExample))]
+    public async Task<IActionResult> Post([FromBody] LoginInputDto input)
     {
-        return await _authService.Authenticate(input);
+        var result = await _authService.Authenticate(input);
+        return Ok(result);
     }
 }

@@ -5,5 +5,5 @@ namespace Appointment.Core.Services.Account;
 
 public interface IAuthService
 {
-    Task<ResponseResultDto<LoginResultDto>> Authenticate(LoginInputDto input);
+    Task<LoginResultDto> Authenticate(LoginInputDto input);
 }

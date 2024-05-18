@@ -5,15 +5,14 @@ using Appointment.Data.Seed;
 using Appointment.Utils.Auth;
 using Appointment.Utils.Auth.UserInfo;
 using Appointment.Utils.Constant;
+using Appointment.Utils.Dto;
+using Appointment.Utils.Extensions;
+using Appointment.Utils.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Appointment.Api;
 
@@ -47,6 +46,11 @@ public class Startup
 
         services.AddCors();
 
+        services.AddControllersWithViews(options =>
+        {
+            options.Conventions.Add(new LowercaseControllerConvention());
+        });
+        
         services.AddControllers()
             .AddNewtonsoftJson(opt =>
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -57,18 +61,43 @@ public class Startup
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
         }).AddAppAuth();
+        
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Appointment API", Version = "v1" });
 
-        services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" }); });
+            // Register the generic type in Swagger
+            c.MapType(typeof(ApiResponse<>), () => new OpenApiSchema
+            {
+                Type = "object",
+                Properties = new Dictionary<string, OpenApiSchema>
+                {
+                    ["code"] = new OpenApiSchema { Type = "integer", Format = "int32" },
+                    ["path"] = new OpenApiSchema { Type = "string" },
+                    ["timestamp"] = new OpenApiSchema { Type = "string", Format = "date-time" },
+                    ["message"] = new OpenApiSchema { Type = "string" },
+                    ["data"] = new OpenApiSchema { Type = "object" },
+                    ["errors"] = new OpenApiSchema { Type = "array", Items = new OpenApiSchema { Type = "string" } }
+                }
+            });
+
+            // Add the example filter
+            c.ExampleFilters();
+        });
+
+        // Register examples from the current assembly
+        services.AddSwaggerExamplesFromAssemblyOf<Startup>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Seeder seeder)
     {
+        app.UseJsonExceptionHandler();
+
         if (env.IsDevelopment())
         {
-            app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "API"); });
+            app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "Appointment API"); });
         }
 
         app.UseStaticFiles(new StaticFileOptions
@@ -76,6 +105,8 @@ public class Startup
             FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), AppConsts.RootPath))
         });
 
+        // app.UseJsonResponseHandler();
+        
         app.UseRouting();
 
         app.UseCors(builder => builder

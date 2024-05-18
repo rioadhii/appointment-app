@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using Appointment.Core.Dto;
 using Appointment.Core.Dto.Auth;
 using Appointment.Core.Dto.Base;
@@ -9,6 +10,7 @@ using Appointment.Data.Repositories.Account;
 using Appointment.Data.Repositories.User;
 using Appointment.Utils.Auth.UserInfo;
 using Appointment.Utils.Hash;
+using Microsoft.AspNetCore.Http;
 
 namespace Appointment.Core.Services.Account;
 
@@ -42,7 +44,7 @@ public class AuthService : IAuthService
         _userRepository = userRepository;
     }
 
-    public async Task<ResponseResultDto<LoginResultDto>> Authenticate(LoginInputDto input)
+    public async Task<LoginResultDto> Authenticate(LoginInputDto input)
     {
         var TaskAuthenticate = await Task.Factory.StartNew(async () =>
         {
@@ -50,46 +52,26 @@ public class AuthService : IAuthService
 
             if (usersData == null)
             {
-                return new ResponseResultDto<LoginResultDto>
-                {
-                    Success = false,
-                    Message = "Your username or email unregistered!",
-                };
+                throw new AuthenticationException("Your username or email unregistered!");
             }
 
             if (!usersData.IsEmailConfirmed)
             {
-                return new ResponseResultDto<LoginResultDto>
-                {
-                    Success = false,
-                    Message = "Please verify your email first!",
-                };
+                throw new AuthenticationException("Please verify your email first!");
             }
 
             bool verifiedPassword = _hash.VerifyIdentityV3Hash(input.Password, usersData.Password);
             if (!verifiedPassword)
             {
-                return new ResponseResultDto<LoginResultDto>
-                {
-                    Success = false,
-                    Message = "Your username or password is invalid!",
-                };
+                throw new AuthenticationException("Your username or password is invalid!");
             }
 
             if (usersData.ShouldChangePasswordOnNextLogin)
             {
-                return new ResponseResultDto<LoginResultDto>
-                {
-                    Success = false,
-                    Message = "User must change password first",
-                    Result = new LoginResultDto
-                    {
-                        IsShouldChangePassword = usersData.ShouldChangePasswordOnNextLogin,
-                    }
-                };
+                throw new AuthenticationException("User must change password first");
             }
 
-            // NOTE: Excute generate jwt token
+            // NOTE: Execute generate jwt token
             TokenInputDto tokenInput = _mapper.MapFrom<TokenInputDto>(usersData);
             UserResultDto user = _mapper.MapFrom<UserResultDto>(usersData);
 
@@ -97,17 +79,12 @@ public class AuthService : IAuthService
             var refreshToken = await _tokenService.GenerateRefreshTokenAsync();
             await UpdateRefreshTokenAsync(usersData, accessToken, refreshToken);
 
-            return new ResponseResultDto<LoginResultDto>
+            return new LoginResultDto
             {
-                Success = true,
-                Message = "",
-                Result = new LoginResultDto
-                {
-                    AccessToken = accessToken,
-                    User = user,
-                    IsShouldChangePassword = user.ShouldChangePasswordOnNextLogin,
-                    RefreshToken = refreshToken,
-                }
+                AccessToken = accessToken,
+                User = user,
+                IsShouldChangePassword = user.ShouldChangePasswordOnNextLogin,
+                RefreshToken = refreshToken,
             };
         });
 
