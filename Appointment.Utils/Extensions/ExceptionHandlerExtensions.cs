@@ -11,7 +11,7 @@ namespace Appointment.Utils.Extensions;
 
 public static class ExceptionHandlerExtensions
 {
-    public static void UseJsonExceptionHandler(this IApplicationBuilder app)
+    public static IApplicationBuilder UseJsonExceptionHandler(this IApplicationBuilder app)
     {
         app.UseExceptionHandler(builder =>
         {
@@ -47,6 +47,8 @@ public static class ExceptionHandlerExtensions
                 }
             });
         });
+
+        return app;
     }
 
     private static int GetStatusCode(Exception error)

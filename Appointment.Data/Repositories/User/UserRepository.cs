@@ -50,45 +50,24 @@ public class UserRepository : IUserRepository
 
     public async Task<Users> AddAsync(Users data)
     {
-        try
-        {
             _db.Users.Add(data);
             await _db.SaveChangesAsync();
 
             return data;
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
     }
 
     public async Task RemoveAsync(Users data)
     {
-        try
-        {
             _db.Users.Remove(data);
             await _db.SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
     }
 
     public async Task<Users> UpdateAsync(Users data)
     {
-        try
-        {
             _db.Users.Update(data);
             await _db.SaveChangesAsync();
 
             return data;
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
     }
 
     public async Task<Users> GetByIdAsync(long UserId)

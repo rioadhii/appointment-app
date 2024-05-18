@@ -51,6 +51,8 @@ public static class AuthExtension
                         {
                             context.Response.Headers.Add("Token-Expired", "true");
                         }
+                        context.Response.Headers.Add("Token-Expired", "true");
+
                         return Task.CompletedTask;
                     }
                 };

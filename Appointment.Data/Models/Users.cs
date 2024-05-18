@@ -17,4 +17,8 @@ public class Users : FullAuditEntity<long>
 
     public virtual List<UserCredentials> UsersCredentials { get; set; }
     public virtual List<UserLogins> UserLogins { get; set; }
+    
+    public virtual List<Appointments> CustomerAppointments { get; set; }
+    
+    public virtual List<Appointments> AgentAppointments { get; set; }
 }

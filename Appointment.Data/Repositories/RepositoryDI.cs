@@ -1,4 +1,5 @@
 using Appointment.Data.Repositories.Account;
+using Appointment.Data.Repositories.Appointment;
 using Appointment.Data.Repositories.User;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +10,7 @@ public static class RepositoryDI
     public static IServiceCollection AddRepositoriesDI(this IServiceCollection services)
     {
         services.AddScoped<IAccountRepository, AccountRepository>();
+        services.AddScoped<IAppointmentRepository, AppointmentRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
 
         return services;

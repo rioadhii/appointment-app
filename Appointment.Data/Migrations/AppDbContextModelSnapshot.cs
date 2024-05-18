@@ -22,6 +22,64 @@ namespace Appointment.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Appointment.Data.Models.Appointments", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("AgentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("time");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AgentId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Appointments");
+                });
+
             modelBuilder.Entity("Appointment.Data.Models.UserCredentials", b =>
                 {
                     b.Property<long>("Id")
@@ -202,6 +260,25 @@ namespace Appointment.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Appointment.Data.Models.Appointments", b =>
+                {
+                    b.HasOne("Appointment.Data.Models.Users", "Agent")
+                        .WithMany("AgentAppointments")
+                        .HasForeignKey("AgentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Appointment.Data.Models.Users", "Customer")
+                        .WithMany("CustomerAppointments")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Agent");
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("Appointment.Data.Models.UserCredentials", b =>
                 {
                     b.HasOne("Appointment.Data.Models.Users", "User")
@@ -224,6 +301,10 @@ namespace Appointment.Data.Migrations
 
             modelBuilder.Entity("Appointment.Data.Models.Users", b =>
                 {
+                    b.Navigation("AgentAppointments");
+
+                    b.Navigation("CustomerAppointments");
+
                     b.Navigation("UserLogins");
 
                     b.Navigation("UsersCredentials");
