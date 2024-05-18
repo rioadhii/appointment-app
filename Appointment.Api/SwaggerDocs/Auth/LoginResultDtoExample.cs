@@ -1,6 +1,6 @@
 using Appointment.Core.Dto.Auth;
 using Appointment.Utils.Dto;
-using Appointment.Utils.Extensions;
+using Appointment.Utils.Constant;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Appointment.Api.SwaggerDocs.Auth;
@@ -12,7 +12,7 @@ public class LoginResultDtoExample : IExamplesProvider<ApiResponse<LoginResultDt
         return new ApiResponse<LoginResultDto>
         {
             Code = 200,
-            Path = "/api/login",
+            Path = AppConsts.DefaultApiUrl + "/api/login",
             Timestamp = DateTime.UtcNow,
             Message = "Login successful",
             Data = new LoginResultDto

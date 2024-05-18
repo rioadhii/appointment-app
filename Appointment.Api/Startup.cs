@@ -92,8 +92,6 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Seeder seeder)
     {
-        app.UseJsonExceptionHandler();
-
         if (env.IsDevelopment())
         {
             app.UseSwagger();
@@ -105,7 +103,7 @@ public class Startup
             FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), AppConsts.RootPath))
         });
 
-        // app.UseJsonResponseHandler();
+        app.UseJsonExceptionHandler();
         
         app.UseRouting();
 
