@@ -42,7 +42,7 @@ public class AgentService : IAgentService
             response.Message = ex.Message;
             response.StatusCode = ex.GetStatusCode();
         }
-
+        
         return response;
     }
 }
