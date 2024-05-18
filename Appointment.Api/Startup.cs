@@ -1,3 +1,4 @@
+using Appointment.Api.SwaggerDocs.Extensions;
 using Appointment.Core.Injections;
 using Appointment.Data.Contexts;
 using Appointment.Data.Repositories;
@@ -108,6 +109,9 @@ public class Startup
                     new string[] { }
                 }
             });
+            
+            c.OperationFilter<AddAcceptHeaderParameter>(); // Adds custom operation filter for Accept header
+            c.OperationFilter<AddResponseContentTypeFilter>(); // Adds custom operation filter for Response content type
         });
 
         // Register examples from the current assembly
