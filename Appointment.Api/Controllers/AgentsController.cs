@@ -9,22 +9,22 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace Appointment.Api.Controllers;
 
-[Route("api/[controller]")]
-// [Authorize]
+[Authorize]
 [ApiController]
-public class AgentController : ControllerBase
+[Route("api/[controller]")]
+public class AgentsController : ControllerBase
 {
     private readonly IAgentService _agentService;
 
-    public AgentController(IAgentService agentService)
+    public AgentsController(IAgentService agentService)
     {
         _agentService = agentService;
     }
     
-    [HttpGet("get-all")]
+    [HttpGet]
     [ProducesResponseType(typeof(ApiResponse<List<AgentResultDto>>), 200)]
     [SwaggerResponseExample(200, typeof(ListOfAgentResultDtoExample))]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> Index()
     {
         var result = await _agentService.GetAllAsync();
         return ApiResponseHelper.Ok(this, result);

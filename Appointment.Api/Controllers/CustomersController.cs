@@ -4,6 +4,6 @@ namespace Appointment.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CustomerController : ControllerBase
+public class CustomersController : ControllerBase
 {
 }
