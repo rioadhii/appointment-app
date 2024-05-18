@@ -51,7 +51,10 @@ public class Startup
             options.Conventions.Add(new LowercaseControllerConvention());
         });
         
-        services.AddControllers()
+        services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(ModelStateValidationFilter));
+            })
             .AddNewtonsoftJson(opt =>
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
@@ -121,7 +124,7 @@ public class Startup
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-        
+
         seeder.ExcuteSeeder().Wait();
     }
 }
