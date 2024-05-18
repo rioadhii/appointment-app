@@ -17,7 +17,7 @@ public class UserRepository : IUserRepository
         _db = db;
     }
 
-    public async Task<List<Users>> GetAsync(UserType userType)
+    public async Task<List<Users>> GetByTypeAsync(UserType userType)
     {
         var data = await _db.Users.Where(x => x.UserType == userType)
             .Include(i => i.UsersCredentials).ToListAsync();
