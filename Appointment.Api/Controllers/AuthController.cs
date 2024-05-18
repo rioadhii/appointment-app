@@ -25,6 +25,6 @@ using Appointment.Api.SwaggerDocs.Auth;
      public async Task<IActionResult> Post([FromBody] LoginInputDto input)
      {
          var result = await _authService.Authenticate(input);
-         return ApiResponseHelper.CreateResponse(HttpContext, result);
+         return ApiResponseHelper.Ok(this, result);
      }
  }
