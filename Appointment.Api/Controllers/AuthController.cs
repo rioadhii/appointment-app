@@ -3,7 +3,8 @@ using Appointment.Api.SwaggerDocs.Auth;
  using Appointment.Core.Services.Account;
  using Appointment.Utils.Dto;
  using Appointment.Utils.Helpers;
- using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
  using Swashbuckle.AspNetCore.Filters;
  
  namespace Appointment.Api.Controllers;
@@ -19,10 +20,11 @@ using Appointment.Api.SwaggerDocs.Auth;
          _authService = authService;
      }
  
-     [HttpPost]
+     [HttpPost("[action]")]
+     [AllowAnonymous]
      [ProducesResponseType(typeof(ApiResponse<LoginResultDto>), 200)]
      [SwaggerResponseExample(200, typeof(LoginResultDtoExample))]
-     public async Task<IActionResult> Post([FromBody] LoginInputDto input)
+     public async Task<IActionResult> Login([FromBody] LoginInputDto input)
      {
          var result = await _authService.Authenticate(input);
          return ApiResponseHelper.Ok(this, result);

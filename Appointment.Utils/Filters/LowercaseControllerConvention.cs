@@ -9,3 +9,11 @@ public class LowercaseControllerConvention : IControllerModelConvention
         controller.ControllerName = controller.ControllerName.ToLower();
     }
 }
+
+public class LowercaseActionConvention : IActionModelConvention
+{
+    public void Apply(ActionModel controller)
+    {
+        controller.ActionName = controller.ActionName.ToLower();
+    }
+}
