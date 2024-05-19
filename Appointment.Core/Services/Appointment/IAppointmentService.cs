@@ -8,5 +8,6 @@ public interface IAppointmentService
 {
     Task<ResponseResultDto<bool>> CheckAvailability(AgentAvailabilityCheckInputDto input);
     Task<ResponseResultDto<PagedListResult<AgentScheduleResultDto>>> GetAgentSchedule(AgentScheduleFilterDto input);
+    Task<ResponseResultDto<DetailAppointmentResultDto>> GetById(DetailAppointmentFilterDto input);
 
 }

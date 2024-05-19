@@ -74,4 +74,26 @@ public class AppointmentService : IAppointmentService
             Data = result
         };
     }
+
+    public async Task<ResponseResultDto<DetailAppointmentResultDto>> GetById(DetailAppointmentFilterDto input)
+    {
+        var data = await _appointmentRepository.GetByIdAsync(input.AppointmentId);
+
+        if (data == null)
+        {
+            return new ResponseResultDto<DetailAppointmentResultDto>()
+            {
+                Success = false,
+                StatusCode = (int)ResultCodeEnum.DATA_NOT_FOUND,
+                Message = AppConsts.ApiResultNotFoundMessage
+            };
+        }
+        
+        DetailAppointmentResultDto mappedData = _mapper.MapFrom<DetailAppointmentResultDto>(data);
+
+        return new ResponseResultDto<DetailAppointmentResultDto>()
+        {
+            Data = mappedData
+        };
+    }
 }

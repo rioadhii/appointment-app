@@ -1,4 +1,4 @@
-using Appointment.Core.Dto.Agent;
+using Appointment.Core.Dto.Common;
 using Appointment.Utils.Constant;
 using Appointment.Utils.Dto;
 using Swashbuckle.AspNetCore.Filters;

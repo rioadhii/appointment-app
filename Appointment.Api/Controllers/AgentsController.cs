@@ -1,7 +1,7 @@
 using Appointment.Api.SwaggerDocs.Agent;
 using Appointment.Api.SwaggerDocs.Appointment;
-using Appointment.Core.Dto.Agent;
 using Appointment.Core.Dto.Appointment;
+using Appointment.Core.Dto.Common;
 using Appointment.Core.Services.Agent;
 using Appointment.Core.Services.Appointment;
 using Appointment.Utils.Dto;

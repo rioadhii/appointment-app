@@ -8,5 +8,6 @@ public static class AppConsts
     public const int MaxPageSize = 1000;
     public const string RootPath = "wwwroot";
     public const string ApiSuccessMessage = "Successfully";
+    public const string ApiResultNotFoundMessage = "Data not found";
 
 }

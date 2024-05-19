@@ -27,12 +27,13 @@ public class AppointmentRepository : IAppointmentRepository
         return data;
     }
 
-    public async Task<Appointments> GetByIdAsync(int Id)
+    public async Task<Appointments?> GetByIdAsync(long Id)
     {
         var data = await _db.Appointments
             .Where(w =>
                 w.Id == Id)
             .Include(i => i.Agent)
+            .Include(i => i.Agent.UsersCredentials)
             .Include(i => i.Customer)
             .FirstOrDefaultAsync();
 

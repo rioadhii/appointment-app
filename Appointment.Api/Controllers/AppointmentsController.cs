@@ -36,4 +36,23 @@ public class AppointmentsController : ControllerBase
             result.Message
         );
     }
+    
+    [HttpGet("{id:long}")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(ApiResponse<DetailAppointmentResultDto>), 200)]
+    [SwaggerResponseExample(200, typeof(AppointmentDetailResultDtoExample))]
+    public async Task<IActionResult> Get(long id)
+    {
+        var result = await _appointmentService.GetById(new DetailAppointmentFilterDto()
+        {
+            AppointmentId = id
+        });
+        
+        return ApiResponseHelper.FormatResponse(
+            this,
+            result.Data,
+            result.StatusCode,
+            result.Message
+        );
+    }
 }

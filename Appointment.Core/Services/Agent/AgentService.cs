@@ -1,6 +1,6 @@
 using Appointment.Core.Dto;
-using Appointment.Core.Dto.Agent;
 using Appointment.Core.Dto.Base;
+using Appointment.Core.Dto.Common;
 using Appointment.Data.Repositories.User;
 using Appointment.Utils.Constant;
 using Appointment.Utils.Extensions;

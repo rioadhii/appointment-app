@@ -1,5 +1,5 @@
 using Appointment.Core.Dto;
-using Appointment.Core.Dto.Agent;
+using Appointment.Core.Dto.Common;
 using Appointment.Core.Services.Agent;
 using Appointment.Data.Contexts;
 using Appointment.Data.Models;

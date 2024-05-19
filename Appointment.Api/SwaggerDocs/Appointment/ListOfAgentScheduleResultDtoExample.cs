@@ -1,4 +1,3 @@
-using Appointment.Core.Dto.Agent;
 using Appointment.Core.Dto.Appointment;
 using Appointment.Core.Dto.Common;
 using Appointment.Utils.Constant;

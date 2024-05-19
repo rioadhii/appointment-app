@@ -1,5 +1,5 @@
-using Appointment.Core.Dto.Agent;
 using Appointment.Core.Dto.Base;
+using Appointment.Core.Dto.Common;
 
 namespace Appointment.Core.Services.Agent;
 
