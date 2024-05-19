@@ -6,6 +6,7 @@ using Appointment.Data.Seed;
 using Appointment.Utils.Auth;
 using Appointment.Utils.Auth.UserInfo;
 using Appointment.Utils.Dto;
+using Appointment.Utils.Extensions;
 using Appointment.Utils.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,10 @@ public static class ServiceCollectionExtensions
             options.Conventions.Add(new LowercaseActionConvention());
         });
 
-        services.AddControllers(options => { options.Filters.Add(typeof(ModelStateValidationFilter)); })
+        services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(ModelStateValidationFilter));
+            })
             .AddNewtonsoftJson(opt =>
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 

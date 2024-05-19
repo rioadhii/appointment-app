@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 using Appointment.Utils.Constant;
 using Microsoft.AspNetCore.Authentication;
@@ -40,6 +41,12 @@ public static class AuthExtension
 
                 options.Events = new JwtBearerEvents
                 {
+                    OnChallenge = context =>
+                    {
+                        // Set the status code to 401 (Unauthorized) when authentication fails
+                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        return Task.CompletedTask;
+                    },
                     OnTokenValidated = context =>
                     {
                         // Add the access_token as a claim, as we may actually need it
@@ -51,8 +58,6 @@ public static class AuthExtension
                         {
                             context.Response.Headers.Add("Token-Expired", "true");
                         }
-                        context.Response.Headers.Add("Token-Expired", "true");
-
                         return Task.CompletedTask;
                     }
                 };

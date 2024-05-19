@@ -39,7 +39,7 @@ public class ListOfAgentResultDtoExample : IExamplesProvider<ApiResponse<List<Ag
             Code = 200,
             Path = AppConsts.DefaultApiUrl + "/api/login",
             Timestamp = DateTime.UtcNow,
-            Message = "Login successful",
+            Message = AppConsts.ApiSuccessMessage,
             Data = agentResults,
             Errors = null
         };

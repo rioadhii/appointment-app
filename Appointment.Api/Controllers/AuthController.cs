@@ -24,9 +24,9 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<LoginResultDto>), 200)]
     [SwaggerResponseExample(200, typeof(LoginResultDtoExample))]
-    public async Task<IActionResult> Login([FromBody] LoginInputDto input)
+    public async Task<IActionResult> Login([FromBody] LoginInputDto req)
     {
-        var result = await _authService.Authenticate(input);
+        var result = await _authService.Authenticate(req);
 
         return ApiResponseHelper.FormatResponse(
             this,

@@ -14,7 +14,7 @@ public class LoginResultDtoExample : IExamplesProvider<ApiResponse<LoginResultDt
             Code = 200,
             Path = AppConsts.DefaultApiUrl + "/api/login",
             Timestamp = DateTime.UtcNow,
-            Message = "Login successful",
+            Message = AppConsts.ApiSuccessMessage,
             Data = new LoginResultDto
             {
                 User = new UserResultDto()

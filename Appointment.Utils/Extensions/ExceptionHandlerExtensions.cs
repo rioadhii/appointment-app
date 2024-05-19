@@ -31,7 +31,7 @@ public static class ExceptionHandlerExtensions
                         Path = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}",
                         Timestamp = DateTime.UtcNow,
                         Message = (statusCode == StatusCodes.Status500InternalServerError)
-                            ? "Internal Server Error: An unexpected error occurred."
+                            ? "Internal Server Error"
                             : ((HttpStatusCode)statusCode).ToString(),
                         Data = null,
                         Errors = GetErrors(error)

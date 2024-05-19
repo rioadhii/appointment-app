@@ -46,7 +46,5 @@ public class Startup
         app.UseEndpoints(endpoints => endpoints.MapControllers());
 
         seeder.ExcuteSeeder().Wait();
-
-        seeder.ExcuteSeeder().Wait();
     }
 }
