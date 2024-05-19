@@ -28,22 +28,22 @@ public class AccountRepository : IAccountRepository
         return data;
     }
 
-    public async Task<UserCredentials> GetByIdAsync(int UserCredentialId)
+    public async Task<UserCredentials?> GetByIdAsync(int userCredentialId)
     {
         var data = await _db.UserCredentials
             .Where(w =>
-                w.Id == UserCredentialId)
+                w.Id == userCredentialId)
             .FirstOrDefaultAsync();
 
         return data;
     }
 
-    public async Task<UserCredentials?> GetByUsernameOrEmailAsync(string UsernameOrEmail)
+    public async Task<UserCredentials?> GetByUsernameOrEmailAsync(string usernameOrEmail)
     {
-        UsernameOrEmail = !String.IsNullOrEmpty(UsernameOrEmail) ? UsernameOrEmail.ToLower() : UsernameOrEmail;
+        usernameOrEmail = !String.IsNullOrEmpty(usernameOrEmail) ? usernameOrEmail.ToLower() : usernameOrEmail;
 
         var data = await _db.UserCredentials.Include(i => i.User)
-            .Where(w => w.Username.ToLower() == UsernameOrEmail && w.Email.ToLower() == UsernameOrEmail)
+            .Where(w => w.Username.ToLower() == usernameOrEmail && w.Email.ToLower() == usernameOrEmail)
             .FirstOrDefaultAsync();
 
         return data;

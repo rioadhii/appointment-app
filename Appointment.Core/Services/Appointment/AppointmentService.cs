@@ -131,7 +131,8 @@ public class AppointmentService : IAppointmentService
 
     public async Task<ResponseResultDto<DetailAppointmentResultDto>> GetById(DetailAppointmentFilterDto input)
     {
-        var data = await _appointmentRepository.GetByIdAsync(input.AppointmentId);
+        var actor = _userInfo.GetUserInfo();
+        var data = await _appointmentRepository.GetByIdAsync(input.AppointmentId, actor.UserId);
 
         if (data == null)
         {

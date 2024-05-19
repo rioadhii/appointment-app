@@ -86,7 +86,6 @@ public static class ServiceCollectionExtensions
                     new string[] { }
                 }
             });
-            c.OperationFilter<AddAcceptHeaderParameter>();
             c.OperationFilter<AddResponseContentTypeFilter>();
         });
 

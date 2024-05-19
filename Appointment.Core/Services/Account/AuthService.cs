@@ -40,7 +40,7 @@ public class AuthService : IAuthService
         
         try
         {
-            var usersData = await _userRepository.FindUserCredentialsAsync(UsernameOrEmail: input.UsernameOrEmail);
+            var usersData = await _userRepository.FindUserCredentialsAsync(usernameOrEmail: input.UsernameOrEmail);
 
             if (usersData == null)
             {

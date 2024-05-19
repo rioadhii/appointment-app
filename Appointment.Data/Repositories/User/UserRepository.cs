@@ -1,7 +1,6 @@
 using Appointment.Data.Contexts;
 using Appointment.Data.Models;
 using Appointment.Utils.Constant;
-using Appointment.Utils.Hash;
 using Microsoft.EntityFrameworkCore;
 
 namespace Appointment.Data.Repositories.User;
@@ -9,11 +8,9 @@ namespace Appointment.Data.Repositories.User;
 public class UserRepository : IUserRepository
 {
     private readonly AppDbContext _db;
-    private PasswordHasher _hash;
 
     public UserRepository(AppDbContext db)
     {
-        _hash = new PasswordHasher();
         _db = db;
     }
 
@@ -25,27 +22,16 @@ public class UserRepository : IUserRepository
         return data;
     }
 
-    public async Task<UserCredentials> FindByIdAsync(long UserId)
+    public async Task<UserCredentials?> FindUserCredentialsAsync(string usernameOrEmail)
     {
-        var data = await _db.UserCredentials
+        var usersData = await _db.UserCredentials
             .Include(c => c.User)
             .Where(w =>
-                w.UserId == UserId)
+                w.Email.Equals(usernameOrEmail) ||
+                w.Username.Equals(usernameOrEmail))
             .FirstOrDefaultAsync();
 
-        return data;
-    }
-
-    public async Task<UserCredentials> FindUserCredentialsAsync(string UsernameOrEmail)
-    {
-        var usersData = _db.UserCredentials
-            .Include(c => c.User)
-            .Where(w =>
-                w.Email.Equals(UsernameOrEmail) ||
-                w.Username.Equals(UsernameOrEmail))
-            .FirstOrDefaultAsync();
-
-        return (UserCredentials)await usersData;
+        return usersData;
     }
 
     public async Task<Users> AddAsync(Users data)
@@ -54,52 +40,5 @@ public class UserRepository : IUserRepository
             await _db.SaveChangesAsync();
 
             return data;
-    }
-
-    public async Task RemoveAsync(Users data)
-    {
-            _db.Users.Remove(data);
-            await _db.SaveChangesAsync();
-    }
-
-    public async Task<Users> UpdateAsync(Users data)
-    {
-            _db.Users.Update(data);
-            await _db.SaveChangesAsync();
-
-            return data;
-    }
-
-    public async Task<Users> GetByIdAsync(long UserId)
-    {
-        var data = await _db.Users
-            .Include(c => c.UsersCredentials)
-            .Where(w =>
-                w.Id == UserId)
-            .FirstOrDefaultAsync();
-
-        return data;
-    }
-
-    public async Task<UserCredentials> FindByEmailVerificationCodeAsync(string VerificationCode)
-    {
-        var data = _db.UserCredentials
-            .Include(c => c.User)
-            .Where(w =>
-                w.EmailVerificationCode.Equals(VerificationCode))
-            .FirstOrDefaultAsync();
-
-        return (UserCredentials)await data;
-    }
-
-    public async Task<UserCredentials> FindByPasswordResetCodeAsync(string VerificationCode)
-    {
-        var data = _db.UserCredentials
-            .Include(c => c.User)
-            .Where(w =>
-                w.PasswordResetCode.Equals(VerificationCode))
-            .FirstOrDefaultAsync();
-
-        return (UserCredentials)await data;
     }
 }

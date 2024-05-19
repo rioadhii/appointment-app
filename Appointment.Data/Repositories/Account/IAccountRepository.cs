@@ -6,9 +6,9 @@ public interface IAccountRepository
 {
     Task<List<UserCredentials>> GetAsync();
         
-    Task<UserCredentials> GetByIdAsync(int UserCredentialId);
+    Task<UserCredentials?> GetByIdAsync(int userCredentialId);
         
-    Task<UserCredentials?> GetByUsernameOrEmailAsync(string UsernameOrEmail);
+    Task<UserCredentials?> GetByUsernameOrEmailAsync(string usernameOrEmail);
 
     Task<UserCredentials> UpdateAsync(UserCredentials data);
 
