@@ -31,6 +31,7 @@ public class CustomersController : ControllerBase
     }
 
     [HttpPost]
+    [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<bool>), 200)]
     [SwaggerResponseExample(200, typeof(CustomerRegistrationResultDtoExample))]
     [SwaggerOperation(
