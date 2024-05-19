@@ -9,9 +9,9 @@ namespace Appointment.Api;
 public class Startup
 {
     public IConfiguration Configuration { get; }
-    
+
     public Startup(IConfiguration configuration) => Configuration = configuration;
-    
+
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddCustomServices(Configuration);
@@ -19,11 +19,8 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Seeder seeder)
     {
-        if (env.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Appointment API"));
-        }
+        app.UseSwagger();
+        app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Appointment API"));
 
         app.UseStaticFiles(new StaticFileOptions
         {
@@ -31,7 +28,7 @@ public class Startup
         });
 
         app.UseJsonExceptionHandler();
-            
+
         app.UseRouting();
 
         app.UseCors(builder => builder

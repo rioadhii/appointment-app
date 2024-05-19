@@ -8,12 +8,14 @@ using Appointment.Utils.Dto;
 using Appointment.Utils.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Appointment.Api.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Authorize]
+[Route("api/[controller]")]
 public class CustomersController : ControllerBase
 {
     private readonly IAppointmentService _appointmentService;
@@ -29,9 +31,12 @@ public class CustomersController : ControllerBase
     }
 
     [HttpPost]
-    [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<bool>), 200)]
     [SwaggerResponseExample(200, typeof(CustomerRegistrationResultDtoExample))]
+    [SwaggerOperation(
+        Summary = "Customer self registration",
+        Description = "Re-login after register and use the token to authenticate")
+    ]
     public async Task<IActionResult> Register([FromBody] CustomerRegisterInputDto req)
     {
         var result = await _customerService.Register(req);
@@ -45,9 +50,9 @@ public class CustomersController : ControllerBase
     }
 
     [HttpGet("appointments")]
-    [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<PagedListResult<CustomerScheduleResultDto>>), 200)]
     [SwaggerResponseExample(200, typeof(ListOfCustomerScheduleResultDtoExample))]
+    [SwaggerOperation(Summary = "Schedule list in Customer point of view")]
     public async Task<IActionResult> Appointments([FromQuery] AppointmentScheduleFilterDto req)
     {
         var result = await _appointmentService.GetCustomerSchedule(req);

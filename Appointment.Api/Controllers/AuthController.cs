@@ -6,6 +6,7 @@ using Appointment.Utils.Dto;
 using Appointment.Utils.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Appointment.Api.Controllers;
@@ -25,6 +26,7 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<AuthResultDto>), 200)]
     [SwaggerResponseExample(200, typeof(LoginResultDtoExample))]
+    [SwaggerOperation(Summary = "Agent or Customer login endpoint")]
     public async Task<IActionResult> Login([FromBody] LoginInputDto req)
     {
         var result = await _authService.Authenticate(req);

@@ -5,6 +5,7 @@ using Appointment.Utils.Dto;
 using Appointment.Utils.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Appointment.Api.Controllers;
@@ -24,9 +25,9 @@ public class AgentsController : ControllerBase
     }
 
     [HttpGet("appointments")]
-    [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<PagedListResult<AgentScheduleResultDto>>), 200)]
     [SwaggerResponseExample(200, typeof(ListOfAgentScheduleResultDtoExample))]
+    [SwaggerOperation(Summary = "Schedule list in Agent point of view")]
     public async Task<IActionResult> Appointments([FromQuery] AppointmentScheduleFilterDto req)
     {
         var result = await _appointmentService.GetAgentSchedule(req);

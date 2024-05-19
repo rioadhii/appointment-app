@@ -6,7 +6,6 @@ using Appointment.Data.Seed;
 using Appointment.Utils.Auth;
 using Appointment.Utils.Auth.UserInfo;
 using Appointment.Utils.Dto;
-using Appointment.Utils.Extensions;
 using Appointment.Utils.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +48,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSwaggerGen(c =>
         {
+            c.EnableAnnotations();
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Appointment API", Version = "v1" });
             c.MapType(typeof(ApiResponse<>), () => new OpenApiSchema
             {
