@@ -2,6 +2,7 @@ using Appointment.Core.Dto;
 using Appointment.Core.Services.Account;
 using Appointment.Core.Services.Agent;
 using Appointment.Core.Services.Appointment;
+using Appointment.Core.Services.Customer;
 using Appointment.Core.Services.Token;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +17,7 @@ public static class ServicesInjection
         services.AddTransient<IAppointmentService, AppointmentService>();
         services.AddTransient<IAgentService, AgentService>();
         services.AddTransient<IAuthService, AuthService>();
+        services.AddTransient<ICustomerService, CustomerService>();
         services.AddTransient<ITokenService, TokenService>();
 
         return services;

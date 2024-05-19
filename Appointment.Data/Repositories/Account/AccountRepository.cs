@@ -38,7 +38,7 @@ public class AccountRepository : IAccountRepository
         return data;
     }
 
-    public async Task<UserCredentials> GetByUsernameOrEmailAsync(string UsernameOrEmail)
+    public async Task<UserCredentials?> GetByUsernameOrEmailAsync(string UsernameOrEmail)
     {
         UsernameOrEmail = !String.IsNullOrEmpty(UsernameOrEmail) ? UsernameOrEmail.ToLower() : UsernameOrEmail;
 

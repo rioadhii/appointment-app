@@ -2,6 +2,7 @@ using System.Security.Authentication;
 using Appointment.Core.Dto;
 using Appointment.Core.Dto.Auth;
 using Appointment.Core.Dto.Base;
+using Appointment.Core.Dto.Common;
 using Appointment.Core.Dto.Token;
 using Appointment.Core.Services.Token;
 using Appointment.Data.Repositories.Account;
@@ -33,9 +34,9 @@ public class AuthService : IAuthService
         _userRepository = userRepository;
     }
 
-    public async Task<ResponseResultDto<LoginResultDto>> Authenticate(LoginInputDto input)
+    public async Task<ResponseResultDto<AuthResultDto>> Authenticate(LoginInputDto input)
     {
-        var response = new ResponseResultDto<LoginResultDto>();
+        var response = new ResponseResultDto<AuthResultDto>();
         
         try
         {
@@ -74,12 +75,10 @@ public class AuthService : IAuthService
 
             // Set response data
             response.Success = true;
-            response.Data = new LoginResultDto
+            response.Data = new AuthResultDto
             {
                 AccessToken = accessToken,
                 User = user,
-                IsShouldChangePassword = user.ShouldChangePasswordOnNextLogin,
-                RefreshToken = refreshToken,
             };
         }
         catch (Exception ex)

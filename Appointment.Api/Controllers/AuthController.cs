@@ -1,5 +1,6 @@
 using Appointment.Api.SwaggerDocs.Auth;
 using Appointment.Core.Dto.Auth;
+using Appointment.Core.Dto.Common;
 using Appointment.Core.Services.Account;
 using Appointment.Utils.Dto;
 using Appointment.Utils.Helpers;
@@ -22,7 +23,7 @@ public class AuthController : ControllerBase
 
     [HttpPost("[action]")]
     [AllowAnonymous]
-    [ProducesResponseType(typeof(ApiResponse<LoginResultDto>), 200)]
+    [ProducesResponseType(typeof(ApiResponse<AuthResultDto>), 200)]
     [SwaggerResponseExample(200, typeof(LoginResultDtoExample))]
     public async Task<IActionResult> Login([FromBody] LoginInputDto req)
     {

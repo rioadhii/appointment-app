@@ -1,5 +1,6 @@
 using Appointment.Core.Dto.Auth;
 using Appointment.Core.Dto.Base;
+using Appointment.Core.Dto.Common;
 using Appointment.Core.Services.Account;
 using Appointment.Utils.Constant;
 
@@ -13,7 +14,7 @@ public class AuthServiceTests
         // Arrange
         var authServiceMock = new Mock<IAuthService>();
         var loginInput = new LoginInputDto() { UsernameOrEmail = "agent1@email.com", Password = "Password1!" };
-        var expectedLoginResult = new ResponseResultDto<LoginResultDto>()
+        var expectedLoginResult = new ResponseResultDto<AuthResultDto>()
             { Success = true, Message = AppConsts.ApiSuccessMessage };
         authServiceMock.Setup(x => x.Authenticate(loginInput)).ReturnsAsync(expectedLoginResult);
 
@@ -32,7 +33,7 @@ public class AuthServiceTests
         // Arrange
         var authServiceMock = new Mock<IAuthService>();
         var loginInput = new LoginInputDto { UsernameOrEmail = "agent1@email.com", Password = "invalidPassword" };
-        var expectedLoginResult = new ResponseResultDto<LoginResultDto>() { Success = false };
+        var expectedLoginResult = new ResponseResultDto<AuthResultDto>() { Success = false };
         authServiceMock.Setup(x => x.Authenticate(loginInput)).ReturnsAsync(expectedLoginResult);
 
         // Act

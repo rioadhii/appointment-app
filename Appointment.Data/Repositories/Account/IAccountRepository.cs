@@ -8,7 +8,7 @@ public interface IAccountRepository
         
     Task<UserCredentials> GetByIdAsync(int UserCredentialId);
         
-    Task<UserCredentials> GetByUsernameOrEmailAsync(string UsernameOrEmail);
+    Task<UserCredentials?> GetByUsernameOrEmailAsync(string UsernameOrEmail);
 
     Task<UserCredentials> UpdateAsync(UserCredentials data);
 
