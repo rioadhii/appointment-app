@@ -33,7 +33,7 @@ public class AppointmentsController : ControllerBase
     [HttpGet("agents")]
     [ProducesResponseType(typeof(ApiResponse<List<AgentResultDto>>), 200)]
     [SwaggerResponseExample(200, typeof(ListOfAgentResultDtoExample))]
-    [SwaggerOperation(Summary = "List of available agents")]
+    [SwaggerOperation(Summary = "List of available agents. Authorize!")]
     public async Task<IActionResult> Agents()
     {
         var result = await _agentService.GetAllAsync();
@@ -49,7 +49,7 @@ public class AppointmentsController : ControllerBase
     [HttpGet("agent-availability")]
     [ProducesResponseType(typeof(ApiResponse<bool>), 200)]
     [SwaggerResponseExample(200, typeof(CheckAgentAvailabilityResultDtoExample))]
-    [SwaggerOperation(Summary = "Check agent availability based on defined period")]
+    [SwaggerOperation(Summary = "Check agent availability by defined period. Authorize!")]
     public async Task<IActionResult> AgentAvailability([FromQuery] AgentAvailabilityCheckInputDto req)
     {
         var result = await _appointmentService.CheckAvailability(req);
@@ -65,7 +65,7 @@ public class AppointmentsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponse<CreateAppointmentResultDto>), 200)]
     [SwaggerResponseExample(200, typeof(BookAppointmentResultDtoExample))]
-    [SwaggerOperation(Summary = "Create appointment (by customer)")]
+    [SwaggerOperation(Summary = "Create appointment (by customer). Authorize!")]
     public async Task<IActionResult> Book([FromBody] CreateAppointmentInputDto req)
     {
         var result = await _appointmentService.Book(req);
@@ -81,7 +81,7 @@ public class AppointmentsController : ControllerBase
     [HttpGet("{id:long}")]
     [ProducesResponseType(typeof(ApiResponse<DetailAppointmentResultDto>), 200)]
     [SwaggerResponseExample(200, typeof(AppointmentDetailResultDtoExample))]
-    [SwaggerOperation(Summary = "Detail of Appointment")]
+    [SwaggerOperation(Summary = "Detail of Appointment. Authorize!")]
     public async Task<IActionResult> Get(long id)
     {
         var result = await _appointmentService.GetById(new DetailAppointmentFilterDto()

@@ -34,7 +34,7 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<bool>), 200)]
     [SwaggerResponseExample(200, typeof(CustomerRegistrationResultDtoExample))]
     [SwaggerOperation(
-        Summary = "Customer self registration",
+        Summary = "Customer self registration. Authorize!",
         Description = "Re-login after register and use the token to authenticate")
     ]
     public async Task<IActionResult> Register([FromBody] CustomerRegisterInputDto req)
@@ -52,7 +52,7 @@ public class CustomersController : ControllerBase
     [HttpGet("appointments")]
     [ProducesResponseType(typeof(ApiResponse<PagedListResult<CustomerScheduleResultDto>>), 200)]
     [SwaggerResponseExample(200, typeof(ListOfCustomerScheduleResultDtoExample))]
-    [SwaggerOperation(Summary = "Schedule list in Customer point of view")]
+    [SwaggerOperation(Summary = "Schedule list in Customer point of view. Authorize!")]
     public async Task<IActionResult> Appointments([FromQuery] AppointmentScheduleFilterDto req)
     {
         var result = await _appointmentService.GetCustomerSchedule(req);

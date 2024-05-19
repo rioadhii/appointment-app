@@ -27,7 +27,7 @@ public class AgentsController : ControllerBase
     [HttpGet("appointments")]
     [ProducesResponseType(typeof(ApiResponse<PagedListResult<AgentScheduleResultDto>>), 200)]
     [SwaggerResponseExample(200, typeof(ListOfAgentScheduleResultDtoExample))]
-    [SwaggerOperation(Summary = "Schedule list in Agent point of view")]
+    [SwaggerOperation(Summary = "Schedule list in Agent point of view. Authorize!")]
     public async Task<IActionResult> Appointments([FromQuery] AppointmentScheduleFilterDto req)
     {
         var result = await _appointmentService.GetAgentSchedule(req);
