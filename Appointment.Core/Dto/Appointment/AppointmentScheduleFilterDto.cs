@@ -3,11 +3,11 @@ using Appointment.Core.Dto.PagingAndSort;
 
 namespace Appointment.Core.Dto.Appointment;
 
-public class AgentScheduleFilterDto : PagedAndSortedInputDto
+public class AppointmentScheduleFilterDto : PagedAndSortedInputDto
 {
     public string? Keyword { get; set; }
     
-    public AgentScheduleFilterDto()
+    public AppointmentScheduleFilterDto()
     {
         if (string.IsNullOrEmpty(Sorting))
         {

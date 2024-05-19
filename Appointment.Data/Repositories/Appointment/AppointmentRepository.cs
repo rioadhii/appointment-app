@@ -19,7 +19,9 @@ public class AppointmentRepository : IAppointmentRepository
     {
         var data = await _db.Appointments
             .Include(i => i.Agent)
+            .Include(i => i.Agent.UsersCredentials)
             .Include(i => i.Customer)
+            .Include(i => i.Customer.UsersCredentials)
             .WhereIf(ownerType == UserType.Agent, w => w.AgentId == ownerId)
             .WhereIf(ownerType == UserType.Customer, w => w.CustomerId == ownerId)
             .ToListAsync();

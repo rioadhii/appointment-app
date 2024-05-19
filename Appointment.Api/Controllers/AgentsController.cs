@@ -1,8 +1,5 @@
-using Appointment.Api.SwaggerDocs.Agent;
 using Appointment.Api.SwaggerDocs.Appointment;
 using Appointment.Core.Dto.Appointment;
-using Appointment.Core.Dto.Common;
-using Appointment.Core.Services.Agent;
 using Appointment.Core.Services.Appointment;
 using Appointment.Utils.Dto;
 using Appointment.Utils.Helpers;
@@ -17,23 +14,20 @@ namespace Appointment.Api.Controllers;
 [Route("api/[controller]")]
 public class AgentsController : ControllerBase
 {
-    private readonly IAgentService _agentService;
     private readonly IAppointmentService _appointmentService;
 
     public AgentsController(
-        IAgentService agentService,
         IAppointmentService appointmentService
     )
     {
-        _agentService = agentService;
         _appointmentService = appointmentService;
     }
 
-    [HttpGet("schedules")]
+    [HttpGet("appointments")]
     [AllowAnonymous]
-    [ProducesResponseType(typeof(ApiResponse<bool>), 200)]
+    [ProducesResponseType(typeof(ApiResponse<PagedListResult<AgentScheduleResultDto>>), 200)]
     [SwaggerResponseExample(200, typeof(ListOfAgentScheduleResultDtoExample))]
-    public async Task<IActionResult> Schedules([FromQuery] AgentScheduleFilterDto req)
+    public async Task<IActionResult> Appointments([FromQuery] AppointmentScheduleFilterDto req)
     {
         var result = await _appointmentService.GetAgentSchedule(req);
 

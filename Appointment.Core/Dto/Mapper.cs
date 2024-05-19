@@ -26,6 +26,10 @@ public class Mapper : IMapper
                 .ForMember(f => f.AppointmentId, act => act.MapFrom(src => src.Id))
                 .ForMember(f => f.Customer, act => act.MapFrom(src => src.Customer));
 
+            c.CreateMap<Appointments, CustomerScheduleResultDto>()
+                .ForMember(f => f.AppointmentId, act => act.MapFrom(src => src.Id))
+                .ForMember(f => f.Agent, act => act.MapFrom(src => src.Agent));
+
             c.CreateMap<Appointments, DetailAppointmentResultDto>()
                 .ForMember(f => f.AppointmentId, act => act.MapFrom(src => src.Id))
                 .ForMember(f => f.Customer, act => act.MapFrom(src => src.Customer))

@@ -68,9 +68,9 @@ public class AppointmentService : IAppointmentService
 
                 return result;
             }
-            
+
             var endTime = input.StartTime.Add(TimeSpan.FromMinutes(input.Duration));
-            
+
             var isAgentHasAppointment = await _appointmentRepository.ValidateExistsAsync(new Appointments()
             {
                 AgentId = input.AgentId,
@@ -108,7 +108,7 @@ public class AppointmentService : IAppointmentService
     }
 
     public async Task<ResponseResultDto<PagedListResult<AgentScheduleResultDto>>> GetAgentSchedule(
-        AgentScheduleFilterDto input)
+        AppointmentScheduleFilterDto input)
     {
         var actor = _userInfo.GetUserInfo();
 
@@ -143,12 +143,35 @@ public class AppointmentService : IAppointmentService
                 Message = AppConsts.ApiResultNotFoundMessage
             };
         }
-        
+
         DetailAppointmentResultDto mappedData = _mapper.MapFrom<DetailAppointmentResultDto>(data);
 
         return new ResponseResultDto<DetailAppointmentResultDto>()
         {
             Data = mappedData
+        };
+    }
+
+    public async Task<ResponseResultDto<PagedListResult<CustomerScheduleResultDto>>> GetCustomerSchedule(
+        AppointmentScheduleFilterDto input
+    )
+    {
+        var actor = _userInfo.GetUserInfo();
+
+        var data = await _appointmentRepository.GetAsync(actor.UserType, actor.UserId);
+        List<CustomerScheduleResultDto> mappedData = _mapper.MapFrom<List<CustomerScheduleResultDto>>(data);
+
+        var query = mappedData.AsQueryable()
+            .OrderBy(input.Sorting)
+            .WhereIf(
+                !String.IsNullOrEmpty(input.Keyword),
+                w => w.Agent.FullName.ToLower().Contains(input.Keyword.ToLower()));
+
+        var result = query.ToPagedListResult(input.PageNumber, input.PageLength);
+
+        return new ResponseResultDto<PagedListResult<CustomerScheduleResultDto>>()
+        {
+            Data = result
         };
     }
 }
