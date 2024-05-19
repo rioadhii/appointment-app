@@ -1,6 +1,7 @@
 using Appointment.Core.Dto.Agent;
+using Appointment.Core.Dto.Appointment;
 using Appointment.Core.Dto.Auth;
-using Appointment.Core.Dto.Customer;
+using Appointment.Core.Dto.Common;
 using Appointment.Core.Dto.Token;
 using Appointment.Data.Models;
 using AutoMapper;
@@ -21,6 +22,10 @@ public class Mapper : IMapper
     {
         _mapper = new MapperConfiguration(c =>
         {
+            c.CreateMap<Appointments, AgentScheduleResultDto>()
+                .ForMember(f => f.AppointmentId, act => act.MapFrom(src => src.Id))
+                .ForMember(f => f.Customer, act => act.MapFrom(src => src.Customer));
+
             c.CreateMap<UserCredentials, UserResultDto>()
                 .ForMember(f => f.FirstName, act => act.MapFrom(src => src.User.FirstName))
                 .ForMember(f => f.LastName, act => act.MapFrom(src => src.User.LastName))

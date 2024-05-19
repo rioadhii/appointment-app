@@ -4,11 +4,8 @@ using Appointment.Core.Dto.Auth;
 using Appointment.Core.Dto.Base;
 using Appointment.Core.Dto.Token;
 using Appointment.Core.Services.Token;
-using Appointment.Data.Contexts;
-using Appointment.Data.Models;
 using Appointment.Data.Repositories.Account;
 using Appointment.Data.Repositories.User;
-using Appointment.Utils.Auth.UserInfo;
 using Appointment.Utils.Extensions;
 using Appointment.Utils.Hash;
 
@@ -16,31 +13,23 @@ namespace Appointment.Core.Services.Account;
 
 public class AuthService : IAuthService
 {
-    private AESCrypt _aesCrypt;
     private PasswordHasher _hash;
-    private readonly AppDbContext _db;
     private readonly IAccountRepository _accountRepository;
     private readonly IMapper _mapper;
     private readonly ITokenService _tokenService;
-    private readonly IUserInfo _userInfo;
     private readonly IUserRepository _userRepository;
 
     public AuthService(
-        AppDbContext db,
         IUserRepository userRepository,
         ITokenService tokenService,
         IAccountRepository accountRepository,
-        IMapper mapper,
-        IUserInfo userInfo
+        IMapper mapper
     )
     {
-        _aesCrypt = new AESCrypt();
         _hash = new PasswordHasher();
-        _db = db;
         _accountRepository = accountRepository;
         _mapper = mapper;
         _tokenService = tokenService;
-        _userInfo = userInfo;
         _userRepository = userRepository;
     }
 
@@ -79,7 +68,9 @@ public class AuthService : IAuthService
 
             var accessToken = await _tokenService.GenerateTokenAsync(tokenInput);
             var refreshToken = await _tokenService.GenerateRefreshTokenAsync();
-            await UpdateRefreshTokenAsync(usersData, accessToken, refreshToken);
+            usersData.Token = accessToken;
+            usersData.RefreshToken = refreshToken;
+            await _accountRepository.UpdateAsync(usersData);
 
             // Set response data
             response.Success = true;
@@ -99,14 +90,5 @@ public class AuthService : IAuthService
         }
 
         return response;
-    }
-
-    private async Task<bool> UpdateRefreshTokenAsync(UserCredentials userCredentials, string accessToken,
-        string refreshToken)
-    {
-        userCredentials.RefreshToken = refreshToken;
-        userCredentials.Token = accessToken;
-        await _db.SaveChangesAsync();
-        return true;
     }
 }

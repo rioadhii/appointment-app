@@ -1,6 +1,4 @@
-using Appointment.Core.Dto.Base;
-
-namespace Appointment.Core.Dto.Customer;
+namespace Appointment.Core.Dto.Common;
 
 public class CustomerResultDto : UserBaseDto
 {

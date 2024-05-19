@@ -1,5 +1,7 @@
 using Appointment.Data.Contexts;
 using Appointment.Data.Models;
+using Appointment.Utils.Constant;
+using Appointment.Utils.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Appointment.Data.Repositories.Appointment;
@@ -13,11 +15,14 @@ public class AppointmentRepository : IAppointmentRepository
         _db = db;
     }
 
-    public async Task<List<Appointments>> GetAsync()
+    public async Task<List<Appointments>> GetAsync(UserType ownerType, long ownerId)
     {
         var data = await _db.Appointments
             .Include(i => i.Agent)
-            .Include(i => i.Customer).ToListAsync();
+            .Include(i => i.Customer)
+            .WhereIf(ownerType == UserType.Agent, w => w.AgentId == ownerId)
+            .WhereIf(ownerType == UserType.Customer, w => w.CustomerId == ownerId)
+            .ToListAsync();
 
         return data;
     }

@@ -1,11 +1,12 @@
 using Appointment.Data.Models;
+using Appointment.Utils.Constant;
 
 namespace Appointment.Data.Repositories.Appointment;
 
 public interface IAppointmentRepository
 {
     Task<Appointments> AddAsync(Appointments data);
-    Task<List<Appointments>> GetAsync();
+    Task<List<Appointments>> GetAsync(UserType ownerType, long ownerId);
     Task<Appointments> GetByIdAsync(int Id);
     Task RemoveAsync(Appointments data);
     Task<Appointments> UpdateAsync(Appointments data);

@@ -52,7 +52,7 @@ public class AgentServiceTests
                 .Returns(agentData);
 
             // Create an instance of AgentService using the in-memory database context
-            var agentService = new AgentService(dbContext, mapperMock.Object, userRepositoryMock.Object);
+            var agentService = new AgentService(mapperMock.Object, userRepositoryMock.Object);
 
             // Act
             var result = await agentService.GetAllAsync();

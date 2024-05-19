@@ -1,6 +1,4 @@
-using Appointment.Utils.Constant;
-
-namespace Appointment.Core.Dto.Base;
+namespace Appointment.Core.Dto.Common;
 
 public class UserBaseDto
 {

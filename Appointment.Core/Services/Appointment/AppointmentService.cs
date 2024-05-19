@@ -1,28 +1,31 @@
+using System.Linq.Dynamic.Core;
 using Appointment.Core.Dto;
 using Appointment.Core.Dto.Appointment;
 using Appointment.Core.Dto.Base;
-using Appointment.Data.Contexts;
 using Appointment.Data.Models;
 using Appointment.Data.Repositories.Appointment;
+using Appointment.Utils.Auth.UserInfo;
+using Appointment.Utils.Constant;
+using Appointment.Utils.Dto;
 using Appointment.Utils.Extensions;
 
 namespace Appointment.Core.Services.Appointment;
 
 public class AppointmentService : IAppointmentService
 {
-    private readonly AppDbContext _db;
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IMapper _mapper;
+    private readonly IUserInfo _userInfo;
 
     public AppointmentService(
-        AppDbContext db,
         IAppointmentRepository appointmentRepository,
-        IMapper mapper
+        IMapper mapper,
+        IUserInfo userInfo
     )
     {
-        _db = db;
         _appointmentRepository = appointmentRepository;
         _mapper = mapper;
+        _userInfo = userInfo;
     }
 
     public async Task<ResponseResultDto<bool>> CheckAvailability(AgentAvailabilityCheckInputDto input)
@@ -48,5 +51,27 @@ public class AppointmentService : IAppointmentService
         }
 
         return response;
+    }
+
+    public async Task<ResponseResultDto<PagedListResult<AgentScheduleResultDto>>> GetAgentSchedule(
+        AgentScheduleFilterDto input)
+    {
+        var actor = _userInfo.GetUserInfo();
+
+        var data = await _appointmentRepository.GetAsync(actor.UserType, actor.UserId);
+        List<AgentScheduleResultDto> mappedData = _mapper.MapFrom<List<AgentScheduleResultDto>>(data);
+
+        var query = mappedData.AsQueryable()
+            .OrderBy(input.Sorting)
+            .WhereIf(
+                !String.IsNullOrEmpty(input.Keyword),
+                w => w.Customer.FullName.ToLower().Contains(input.Keyword.ToLower()));
+
+        var result = query.ToPagedListResult(input.PageNumber, input.PageLength);
+
+        return new ResponseResultDto<PagedListResult<AgentScheduleResultDto>>()
+        {
+            Data = result
+        };
     }
 }

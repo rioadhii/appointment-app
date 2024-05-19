@@ -15,17 +15,10 @@ public class AccountRepository : IAccountRepository
 
     public async Task<UserCredentials> AddAsync(UserCredentials data)
     {
-        try
-        {
-            _db.UserCredentials.Add(data);
-            await _db.SaveChangesAsync();
+        _db.UserCredentials.Add(data);
+        await _db.SaveChangesAsync();
 
-            return data;
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
+        return data;
     }
 
     public async Task<List<UserCredentials>> GetAsync()
@@ -58,29 +51,15 @@ public class AccountRepository : IAccountRepository
 
     public async Task RemoveAsync(UserCredentials data)
     {
-        try
-        {
-            _db.UserCredentials.Remove(data);
-            await _db.SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
+        _db.UserCredentials.Remove(data);
+        await _db.SaveChangesAsync();
     }
 
     public async Task<UserCredentials> UpdateAsync(UserCredentials data)
     {
-        try
-        {
-            _db.UserCredentials.Update(data);
-            await _db.SaveChangesAsync();
+        _db.UserCredentials.Update(data);
+        await _db.SaveChangesAsync();
 
-            return data;
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
+        return data;
     }
 }

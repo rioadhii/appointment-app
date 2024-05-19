@@ -11,21 +11,21 @@ public class ListOfAgentResultDtoExample : IExamplesProvider<ApiResponse<List<Ag
     {
         var agentResults = new List<AgentResultDto>
         {
-            new AgentResultDto
+            new()
             {
                 FullName = "John Doe",
                 PhoneNumber = "123-456-7890",
                 AgentId = 1,
                 Email = "johndoe@example.com"
             },
-            new AgentResultDto
+            new()
             {
                 FullName = "Jane Smith",
                 PhoneNumber = "987-654-3210",
                 AgentId = 2,
                 Email = "janesmith@example.com"
             },
-            new AgentResultDto
+            new()
             {
                 FullName = "Alice Johnson",
                 PhoneNumber = "555-666-7777",
