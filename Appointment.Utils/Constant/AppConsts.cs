@@ -9,5 +9,6 @@ public static class AppConsts
     public const string RootPath = "wwwroot";
     public const string ApiSuccessMessage = "Successfully";
     public const string ApiResultNotFoundMessage = "Data not found";
+    public const string ApiResultOperationNotPermitted = "Operation not permitted";
 
 }

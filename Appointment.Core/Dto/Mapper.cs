@@ -30,6 +30,8 @@ public class Mapper : IMapper
                 .ForMember(f => f.AppointmentId, act => act.MapFrom(src => src.Id))
                 .ForMember(f => f.Customer, act => act.MapFrom(src => src.Customer))
                 .ForMember(f => f.Agent, act => act.MapFrom(src => src.Agent));
+
+            c.CreateMap<CreateAppointmentInputDto, Appointments>();
             
             c.CreateMap<CustomerRegisterInputDto, Users>()
                 .ForMember(f => f.FirstName, act => act.MapFrom(src => src.FullName))

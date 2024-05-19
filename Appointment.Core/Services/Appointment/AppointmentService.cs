@@ -53,6 +53,60 @@ public class AppointmentService : IAppointmentService
         return response;
     }
 
+    public async Task<ResponseResultDto<CreateAppointmentResultDto>> Book(CreateAppointmentInputDto input)
+    {
+        var result = new ResponseResultDto<CreateAppointmentResultDto>();
+        var actor = _userInfo.GetUserInfo();
+
+        try
+        {
+            if (actor.UserType == UserType.Agent)
+            {
+                result.Success = false;
+                result.StatusCode = (int)ResultCodeEnum.FORBIDDEN;
+                result.Message = AppConsts.ApiResultOperationNotPermitted;
+
+                return result;
+            }
+            
+            var endTime = input.StartTime.Add(TimeSpan.FromMinutes(input.Duration));
+            
+            var isAgentHasAppointment = await _appointmentRepository.ValidateExistsAsync(new Appointments()
+            {
+                AgentId = input.AgentId,
+                StartTime = input.StartTime,
+                EndTime = endTime,
+                Date = input.Date
+            });
+
+            if (isAgentHasAppointment)
+            {
+                result.Success = false;
+                result.StatusCode = (int)ResultCodeEnum.BAD_REQUEST;
+                result.Message = "Agent already has appointment";
+            }
+            else
+            {
+                var newAppointment = _mapper.MapFrom<Appointments>(input);
+                newAppointment.CustomerId = actor.UserId;
+                newAppointment.EndTime = endTime;
+                var appointment = await _appointmentRepository.AddAsync(newAppointment);
+                result.Data = new CreateAppointmentResultDto()
+                {
+                    AppointmentId = appointment.Id
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = ex.GetStatusCode();
+            result.Message = ex.Message;
+            result.Success = false;
+        }
+
+        return result;
+    }
+
     public async Task<ResponseResultDto<PagedListResult<AgentScheduleResultDto>>> GetAgentSchedule(
         AgentScheduleFilterDto input)
     {

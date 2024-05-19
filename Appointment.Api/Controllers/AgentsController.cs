@@ -29,21 +29,6 @@ public class AgentsController : ControllerBase
         _appointmentService = appointmentService;
     }
 
-    [HttpGet]
-    [ProducesResponseType(typeof(ApiResponse<List<AgentResultDto>>), 200)]
-    [SwaggerResponseExample(200, typeof(ListOfAgentResultDtoExample))]
-    public async Task<IActionResult> Index()
-    {
-        var result = await _agentService.GetAllAsync();
-
-        return ApiResponseHelper.FormatResponse(
-            this,
-            result.Data,
-            result.StatusCode,
-            result.Message
-        );
-    }
-
     [HttpGet("schedules")]
     [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponse<bool>), 200)]

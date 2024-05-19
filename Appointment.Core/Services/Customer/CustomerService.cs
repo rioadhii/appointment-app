@@ -14,7 +14,6 @@ public class CustomerService : ICustomerService
 {
     private readonly IAccountRepository _accountRepository;
     private readonly IMapper _mapper;
-    private PasswordGenerator _passwordGenerator;
     private PasswordHasher _hash;
     private readonly IUserRepository _userRepository;
 
@@ -26,7 +25,6 @@ public class CustomerService : ICustomerService
     {
         _accountRepository = accountRepository;
         _mapper = mapper;
-        _passwordGenerator = new PasswordGenerator();
         _hash = new PasswordHasher();
         _userRepository = userRepository;
     }
