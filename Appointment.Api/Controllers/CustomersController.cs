@@ -35,7 +35,7 @@ public class CustomersController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<bool>), 200)]
     [SwaggerResponseExample(200, typeof(CustomerRegistrationResultDtoExample))]
     [SwaggerOperation(
-        Summary = "Customer self registration. Authorize!",
+        Summary = "Customer self registration.",
         Description = "Re-login after register and use the token to authenticate")
     ]
     public async Task<IActionResult> Register([FromBody] CustomerRegisterInputDto req)

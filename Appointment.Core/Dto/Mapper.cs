@@ -56,11 +56,11 @@ public class Mapper : IMapper
                 .ForMember(f => f.AgentId, act => act.MapFrom(src => src.Id))
                 .ForMember(f => f.Email, act => act.MapFrom(src => src.UsersCredentials != null ? src.UsersCredentials.FirstOrDefault().Email : null))
                 .ForMember(f => f.PhoneNumber, act => act.MapFrom(src => src.PhoneNumber))
-                .ForMember(f => f.FullName, act => act.MapFrom(src => $"{src.FirstName} {(src.LastName != null ? src.LastName : "")}"));
+                .ForMember(f => f.FullName, act => act.MapFrom(src => src.FirstName));
             c.CreateMap<Users, CustomerResultDto>()
                 .ForMember(f => f.CustomerId, act => act.MapFrom(src => src.Id))
                 .ForMember(f => f.PhoneNumber, act => act.MapFrom(src => src.PhoneNumber))
-                .ForMember(f => f.FullName, act => act.MapFrom(src => $"{src.FirstName} {(src.LastName != null ? src.LastName : "")}"));
+                .ForMember(f => f.FullName, act => act.MapFrom(src => src.FirstName));
         });
     }
 
